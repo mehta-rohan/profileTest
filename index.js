@@ -28,6 +28,10 @@ app.use(function(req,res,next){
 
 app.use(express.static("./public"));
 
+app.next("/",function(req,res){
+	res.send("Welcome");
+})
+
 app.post("/data-api",function(req,res){
 	var result = data.filter(function(student){
 		return student.name.toLowerCase() === req.body.name.toLowerCase();
