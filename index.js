@@ -2,6 +2,14 @@ var express = require("express");
 var body = require("body-parser");
 var fs = require("fs");
 var app = express();
+var http = require("http");
+var server = http.createServer(app);
+
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3030
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
+ 
+
+
 
 var data = [{
 		"name":"Amit",
@@ -28,7 +36,7 @@ app.use(function(req,res,next){
 
 app.use(express.static("./public"));
 
-app.next("/",function(req,res){
+app.get("/",function(req,res){
 	res.send("Welcome");
 })
 
@@ -51,8 +59,9 @@ app.post("/data-api",function(req,res){
 				</html>`);
 });
 
-app.listen(2000);
+server.listen(server_port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", port " + server_port )
+});
 
-console.log("Server up!! @2000");
 
 module.export = app;
