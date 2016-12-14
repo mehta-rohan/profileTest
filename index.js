@@ -5,24 +5,33 @@ var app = express();
 var http = require("http");
 var server = http.createServer(app);
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3030
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 2000
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || 'localhost'
  
 
 
 
 var data = [{
-		"name":"Amit",
-		"class":"10th",
-		"present":"N"
+		"name":"ankush",
+		"age":"23",
+		"company":"ClickLabs"
+	},{
+		"name":"tushar",
+		"age":"23",
+		"company":"ClickLabs"
 	},{
 		"name":"Rohan",
-		"class":"11th",
-		"present":"Y"
+		"age":"24",
+		"company":"Infogain"
 	},{
-		"name":"Lack",
-		"class":"9th",
-		"present":"N"
+		"name":"Gurmanjot",
+		"age":"23",
+		"company":"Infogain"
+	},
+	{
+		"name":"Reema",
+		"age":"23",
+		"company":"Netsolution"
 	}];
 
 app.use(body.json());
@@ -37,24 +46,23 @@ app.use(function(req,res,next){
 app.use(express.static("./public"));
 
 app.get("/",function(req,res){
-	res.send("Welcome");
+	res.send("welcome");
 })
 
 app.post("/data-api",function(req,res){
 	var result = data.filter(function(student){
 		return student.name.toLowerCase() === req.body.name.toLowerCase();
 	});
-	var name = result[0].name;
 	res.send(`</!DOCTYPE html>
 				<html>
 				<head>
 					<title>My data</title>
 				</head>
 				<body>
-				<img src="${result[0].name}.jpg"">
-				<h1>${result[0].name}</h1>
-				<h1>${result[0].class}</h1>
-				<h1>${result[0].present}</h1>
+				<img src="/images/${result[0].name.toLowerCase()}.jpg"">
+				<h1>name: ${result[0].name}</h1>
+				<h1>age: ${result[0].age}</h1>
+				<h1>company: ${result[0].company}</h1>
 				</body>
 				</html>`);
 });
